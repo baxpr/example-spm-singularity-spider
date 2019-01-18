@@ -51,6 +51,8 @@ The container can be built locally on a machine where Singularity is available (
 
 Or, we can take advantage of 
 [singularity-hub](https://www.singularity-hub.org/collections/2117)
-which will build it for us.
+which will build it for us, and we can download:
+
+    singularity pull shub://baxpr/example-spm-singularity-spider:v1.0.0
 
 Finally, we have a script to test the container, `test_sing_container.sh`.
