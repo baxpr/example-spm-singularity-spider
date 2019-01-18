@@ -1,0 +1,68 @@
+Bootstrap: docker
+From: ubuntu:16.04
+
+%help
+example_spm
+
+An example SPM-based container that implements realignment, coregistration, and 
+smoothing for an fMRI data set. 
+
+
+%files
+
+  # Copy Matlab executable from bin (on host) to /matlab_bin in the container
+  bin /matlab_bin
+ 
+%labels
+  Maintainer baxter.rogers@vanderbilt.edu
+
+%post
+
+  # Update the package manager and install needed packages
+  #   wget            Lets us download software during the build
+  #   unzip,zip       Lets us unzip same
+  #   openjdk-8-jre   Required for Matlab Runtime to work
+  #   xvfb            Not needed here, but may be used if figures must be shown 
+  #                      on a virtual display. No actual display is available 
+  #                      at runtime.
+  #   ghostscript     These two provide tools to generate/combine images/PDFs.
+  #   imagemagick
+  apt-get update
+  apt-get install -y wget unzip zip openjdk-8-jre
+  
+  # If we are using ImageMagick to create PDFs, we need to relax its security 
+  # policy to permit this. See https://usn.ubuntu.com/3785-1/
+  #sed -i 's/rights="none" pattern="PDF"/rights="read | write" pattern="PDF"/' \
+  #  /etc/ImageMagick-6/policy.xml
+  
+  # Download the Matlab Compiled Runtime installer, install, clean up.
+  mkdir /MCR
+  wget -nv -P /MCR http://ssd.mathworks.com/supportfiles/downloads/R2017a/deployment_files/R2017a/installers/glnxa64/MCR_R2017a_glnxa64_installer.zip
+  unzip /MCR/MCR_R2017a_glnxa64_installer.zip -d /MCR/MCR_R2017a_glnxa64_installer
+  /MCR/MCR_R2017a_glnxa64_installer/install -mode silent -agreeToLicense yes
+  rm -r /MCR/MCR_R2017a_glnxa64_installer /MCR/MCR_R2017a_glnxa64_installer.zip
+  rmdir /MCR
+
+  # Create input/output directories that we can bind to at runtime
+  mkdir /INPUTS && mkdir /OUTPUTS
+
+  # Singularity-hub doesn't work with github LFS (it gets the pointer info 
+  # instead of the actual file) so we get the compiled matlab executable via 
+  # direct download.
+  rm /matlab_bin/example_spm
+  wget -nv -P /matlab_bin https://github.com/baxpr/example-spm-singularity-spider/blob/master/bin/example_main
+  chmod ugo+rx /matlab_bin/example_spm
+
+%environment
+  # We don't need to set the Matlab library path, because Matlab's 
+  # auto-generated run_??.sh script does it for us.
+ 
+
+%runscript
+  # We use the "$@" argument to pass along any arguments that are given at the
+  # singularity command line - this is how we pass in file paths, parameters, 
+  # etc. The first argument given here is the location of the Matlab Runtime -
+  # see the explanation in Matlab's auto-generated file bin/readme.txt
+  bash /matlab_bin/run_example_spm.sh \
+  /usr/local/MATLAB/MATLAB_Runtime/v92 "$@"
+

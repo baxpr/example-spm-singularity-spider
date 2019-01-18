@@ -17,7 +17,7 @@ implements realignment, coregistration, and smoothing for an fMRI data set.
 	  test_matlab.sh             Test the code at the shell command line
 	  <others>                   Subfunctions for different parts of the pipeline
 	.gitattributes               Tracks files for git-lfs
-	gitignore                    Use this to keep some things (test data) out of the repo
+	.gitignore                   Use this to keep some things (test data) out of the repo
 	README.md                    This file
 	compile_matlab.sh            Shell script to compile the matlab code
 
