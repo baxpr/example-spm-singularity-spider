@@ -19,6 +19,7 @@ implements realignment, coregistration, and smoothing for an fMRI data set.
 	.gitattributes               Tracks files for git-lfs
 	.gitignore                   Use this to keep some things (test data) out of the repo
 	README.md                    This file
+	Singularity.v1.0.0           Singularity container recipe
 	compile_matlab.sh            Shell script to compile the matlab code
 
 
@@ -44,3 +45,12 @@ The compiled matlab executable will often exceed github's 100 MB file size limit
 
 
 ## Build the container and test
+The container can be built locally on a machine where Singularity is available (i.e. on linux):
+
+    singularity build example-spm-singularity-spider.simg Singularity.v1.0.0
+
+Or, we can take advantage of 
+[singularity-hub](https://www.singularity-hub.org/collections/2117)
+which will build it for us.
+
+Finally, we have a script to test the container, `test_sing_container.sh`.
