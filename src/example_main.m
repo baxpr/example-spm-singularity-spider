@@ -104,7 +104,7 @@ coregister(meanfmri_nii,t1_nii,fmri_nii);
 
 % Zip output images. Also required by XNAT.
 [meanfmri_niigz,rfmri_niigz,srfmri_niigz] = zip_outputs( ...
-	out_dir,meanfmri_nii,rfmri_nii,srfmri_nii);
+	meanfmri_nii,rfmri_nii,srfmri_nii);
 
 
 

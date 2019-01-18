@@ -1,24 +1,30 @@
 function [srfmri_nii] = smooth_imgs(rfmri_nii,fwhm)
 
 % Load the images
-V = spm_vol(func_file);
+V = spm_vol(rfmri_nii);
 Y = spm_read_vols(V);
 sY = zeros(size(Y));
 
-% Smooth
+% Smooth. To avoid batch mode, we write our own loop to do this with
+% spm_smooth directly.
 for v = 1:size(Y,4)
 	tmp = Y(:,:,:,v);
 	tmp2 = nan(size(tmp));
-	spm_smooth(tmp,tmp2,params.spatialsmooth_fwhm);
+	spm_smooth(tmp,tmp2,fwhm);
 	sY(:,:,:,v) = tmp2;
 end
 
-% Write to file
-[p,n,e] = fileparts(func_file);
-sfunc_file = fullfile(p,['s' n e]);
+% Write to file. This is the general procedure for writing to a 4D nii with
+% SPM functions. It has to go one volume at a time, and we have to be
+% careful how we handle the scaling values in V.pinfo (they must be the
+% same for all volumes). Here we are getting those from the original
+% unsmoothed images.
+[p,n,e] = fileparts(rfmri_nii);
+srfmri_nii = fullfile(p,['s' n e]);
 for v = 1:size(Y,4)
 	Vout = V(v);
-	Vout.fname = sfunc_file;
+	Vout.fname = srfmri_nii;
 	Vout.n(1) = v;
 	spm_write_vol(Vout,sY(:,:,:,v));
 end
+

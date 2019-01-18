@@ -9,14 +9,11 @@ flags = struct( ...
 	'interp',2, ...
 	'wrap',[0 0 0] ...
 	);
-spm_realign(func_file,flags);
+spm_realign(fmri_nii,flags);
 
 % Filename of realignment params
-[func_p,func_n,func_e] = fileparts(func_file);
-rp_file = fullfile(func_p,['rp_' func_n '.txt']);
-
-% Filenames for realigned images (we will return the not-resliced set)
-rfunc_file = func_file;
+[fmri_p,fmri_n,fmri_e] = fileparts(fmri_nii);
+rp_txt = fullfile(fmri_p,['rp_' fmri_n '.txt']);
 
 % Now generate mean image via spm_reslice
 flags = struct( ...
@@ -27,5 +24,6 @@ flags = struct( ...
 	'wrap',[0 0 0], ...
 	'prefix','r' ...
 	);
-spm_reslice(func_file,flags);
-meanfunc_file = fullfile(func_p,['mean' func_n func_e]);
+spm_reslice(fmri_nii,flags);
+meanfmri_nii = fullfile(fmri_p,['mean' fmri_n fmri_e]);
+
