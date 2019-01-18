@@ -13,13 +13,12 @@ point is it worth proceeding to compilation.
 
 ## Compile the Matlab code and test
 See `compile_matlab.sh`. There is a test script for the compiled code as well: 
-`bin/test_compiled_matlab.sh`. Once it is working correctly, procede to 
+`bin/test_compiled_matlab.sh`. Once it is working correctly, proceed to 
 building the container.
 
-The compiled matlab executable will often exceed github's 100 MB file size limit. In that case, git LFS is useful:
+The compiled matlab executable will often exceed github's 100 MB file size limit. In that case, [git LFS](https://git-lfs.github.com/) is useful:
 
     git lfs track bin/example_main
 
-[Installation instructions for git-lfs](https://git-lfs.github.com/)
 
 ## Build the container and test
