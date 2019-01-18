@@ -10,7 +10,7 @@ sY = zeros(size(Y));
 for v = 1:size(Y,4)
 	tmp = Y(:,:,:,v);
 	tmp2 = nan(size(tmp));
-	spm_smooth(tmp,tmp2,fwhm);
+	spm_smooth(tmp,tmp2,str2double(fwhm));
 	sY(:,:,:,v) = tmp2;
 end
 
@@ -19,8 +19,12 @@ end
 % careful how we handle the scaling values in V.pinfo (they must be the
 % same for all volumes). Here we are getting those from the original
 % unsmoothed images.
+%
+% We also include the smoothing kernel size in the prefix of the smoothed
+% image file, to provide a little extra information for whoever is using
+% the files later.
 [p,n,e] = fileparts(rfmri_nii);
-srfmri_nii = fullfile(p,['s' n e]);
+srfmri_nii = fullfile(p,['s' fwhm '_' n e]);
 for v = 1:size(Y,4)
 	Vout = V(v);
 	Vout.fname = srfmri_nii;
