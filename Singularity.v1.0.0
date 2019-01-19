@@ -37,13 +37,13 @@ smoothing for an fMRI data set. See /example_spm/README.md
   #   wget            Lets us download software during the build
   #   unzip,zip       Lets us unzip same
   #   openjdk-8-jre   Required for Matlab Runtime to work
-  #   xvfb            Not needed here, but may be used if figures must be shown 
-  #                      on a virtual display. No actual display is available 
-  #                      at runtime.
+  #   xvfb            May be used if figures must be shown on a virtual display, 
+  #                      as no actual display is available at runtime. Matlab 
+  #                      Runtime requires this, anyway.
   #   ghostscript     These two provide tools to generate/combine images/PDFs.
   #   imagemagick        We are not using them for this simple example.
   apt-get -qq update
-  apt-get -qq install -y wget unzip zip openjdk-8-jre
+  apt-get -qq install -y wget unzip zip openjdk-8-jre xvfb
   
   # If we are using ImageMagick to create PDFs, we need to relax its security 
   # policy to permit this. See https://usn.ubuntu.com/3785-1/

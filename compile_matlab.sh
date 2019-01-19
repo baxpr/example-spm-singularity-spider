@@ -48,12 +48,8 @@ matlab -nodisplay -nodesktop -nosplash -sd src -r \
 # The compiled binary will be put in the bin directory.
 #
 # It's usually fine to ignore compiler warnings about the fixedpoint toolbox.
-#
-# -R -nodisplay is to keep the Runtime from trying to access the X11 display, 
-# which is not installed in this container (see the Singularity file).
 mkdir -p bin
 mcc -m -v src/example_main.m \
--R -nodisplay \
 -I ${SPM_PATH} \
 -I ${SPM_PATH}/config \
 -I ${SPM_PATH}/matlabbatch \
