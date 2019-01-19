@@ -63,9 +63,9 @@ smoothing for an fMRI data set. See /example_spm/README.md
 
   # Singularity-hub doesn't work with github LFS (it gets the pointer info 
   # instead of the actual file) so we get the compiled matlab executable via 
-  # direct download.
+  # direct download. The "raw" in the URL is critical here.
   rm /opt/example_spm/bin/example_main
-  wget -nv -P /opt/example_spm/bin https://github.com/baxpr/example-spm-singularity-spider/blob/master/bin/example_main
+  wget -nv -P /opt/example_spm/bin https://github.com/baxpr/example-spm-singularity-spider/raw/master/bin/example_main
   chmod ugo+rx /opt/example_spm/bin/example_main
 
 
