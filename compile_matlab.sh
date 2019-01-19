@@ -50,6 +50,7 @@ matlab -nodisplay -nodesktop -nosplash -sd src -r \
 # It's usually fine to ignore compiler warnings about the fixedpoint toolbox.
 mkdir -p bin
 mcc -m -v src/example_main.m \
+-R -nodisplay \
 -I ${SPM_PATH} \
 -I ${SPM_PATH}/config \
 -I ${SPM_PATH}/matlabbatch \
