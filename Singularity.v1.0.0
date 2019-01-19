@@ -17,15 +17,15 @@ smoothing for an fMRI data set. See /example_spm/README.md
 
   # Copy Matlab executable from bin (on host) to /example_spm in the container. 
   # No processing happens without it!
-  bin /example_spm
+  bin /opt/example_spm
   
   # Let's also copy the source code. It's not needed to run the container, but
   # it could helpful for someone if we include it in anyway.
-  src /example_spm
+  src /opt/example_spm
   
   # And the README file and compilation script
-  README.md /example_spm
-  compile_matlab.sh /example_spm
+  README.md /opt/example_spm
+  compile_matlab.sh /opt/example_spm
   
  
 %labels
@@ -53,7 +53,7 @@ smoothing for an fMRI data set. See /example_spm/README.md
   # Download the Matlab Compiled Runtime installer, install, clean up.
   mkdir /MCR
   wget -nv -P /MCR http://ssd.mathworks.com/supportfiles/downloads/R2017a/deployment_files/R2017a/installers/glnxa64/MCR_R2017a_glnxa64_installer.zip
-  unzip /MCR/MCR_R2017a_glnxa64_installer.zip -d /MCR/MCR_R2017a_glnxa64_installer
+  unzip -q /MCR/MCR_R2017a_glnxa64_installer.zip -d /MCR/MCR_R2017a_glnxa64_installer
   /MCR/MCR_R2017a_glnxa64_installer/install -mode silent -agreeToLicense yes
   rm -r /MCR/MCR_R2017a_glnxa64_installer /MCR/MCR_R2017a_glnxa64_installer.zip
   rmdir /MCR
@@ -64,9 +64,9 @@ smoothing for an fMRI data set. See /example_spm/README.md
   # Singularity-hub doesn't work with github LFS (it gets the pointer info 
   # instead of the actual file) so we get the compiled matlab executable via 
   # direct download.
-  rm /example_spm/bin/example_spm
-  wget -nv -P /example_spm/bin https://github.com/baxpr/example-spm-singularity-spider/blob/master/bin/example_main
-  chmod ugo+rx /example_spm/bin/example_spm
+  rm /opt/example_spm/bin/example_spm
+  wget -nv -P /opt/example_spm/bin https://github.com/baxpr/example-spm-singularity-spider/blob/master/bin/example_main
+  chmod ugo+rx /opt/example_spm/bin/example_spm
 
 
 %environment
@@ -79,6 +79,6 @@ smoothing for an fMRI data set. See /example_spm/README.md
   # singularity command line - this is how we pass in file paths, parameters, 
   # etc. The first argument given here is the location of the Matlab Runtime -
   # see the explanation in Matlab's auto-generated file bin/readme.txt
-  bash /example_spm/bin/run_example_spm.sh \
+  bash /opt/example_spm/bin/run_example_spm.sh \
   /usr/local/MATLAB/MATLAB_Runtime/v92 "$@"
 
