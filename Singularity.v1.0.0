@@ -5,13 +5,28 @@ From: ubuntu:16.04
 example_spm
 
 An example SPM-based container that implements realignment, coregistration, and 
-smoothing for an fMRI data set. 
+smoothing for an fMRI data set. See /example_spm/README.md
 
+%setup
+
+  # Make a directory to store various files. We need bin to run, the others are
+  # just to be informative for anyone who only has the container at hand.
+  mkdir -p ${SINGULARITY_ROOTFS}/opt/example_spm
 
 %files
 
-  # Copy Matlab executable from bin (on host) to /matlab_bin in the container
-  bin /matlab_bin
+  # Copy Matlab executable from bin (on host) to /example_spm in the container. 
+  # No processing happens without it!
+  bin /example_spm
+  
+  # Let's also copy the source code. It's not needed to run the container, but
+  # it could helpful for someone if we include it in anyway.
+  src /example_spm
+  
+  # And the README file and compilation script
+  README.md /example_spm
+  compile_matlab.sh /example_spm
+  
  
 %labels
   Maintainer baxter.rogers@vanderbilt.edu
@@ -26,7 +41,7 @@ smoothing for an fMRI data set.
   #                      on a virtual display. No actual display is available 
   #                      at runtime.
   #   ghostscript     These two provide tools to generate/combine images/PDFs.
-  #   imagemagick
+  #   imagemagick        We are not using them for this simple example.
   apt-get update
   apt-get install -y wget unzip zip openjdk-8-jre
   
@@ -49,12 +64,13 @@ smoothing for an fMRI data set.
   # Singularity-hub doesn't work with github LFS (it gets the pointer info 
   # instead of the actual file) so we get the compiled matlab executable via 
   # direct download.
-  rm /matlab_bin/example_spm
-  wget -nv -P /matlab_bin https://github.com/baxpr/example-spm-singularity-spider/blob/master/bin/example_main
-  chmod ugo+rx /matlab_bin/example_spm
+  rm /example_spm/bin/example_spm
+  wget -nv -P /example_spm/bin https://github.com/baxpr/example-spm-singularity-spider/blob/master/bin/example_main
+  chmod ugo+rx /example_spm/bin/example_spm
+
 
 %environment
-  # We don't need to set the Matlab library path, because Matlab's 
+  # We don't need to set the Matlab library path here, because Matlab's 
   # auto-generated run_??.sh script does it for us.
  
 
@@ -63,6 +79,6 @@ smoothing for an fMRI data set.
   # singularity command line - this is how we pass in file paths, parameters, 
   # etc. The first argument given here is the location of the Matlab Runtime -
   # see the explanation in Matlab's auto-generated file bin/readme.txt
-  bash /matlab_bin/run_example_spm.sh \
+  bash /example_spm/bin/run_example_spm.sh \
   /usr/local/MATLAB/MATLAB_Runtime/v92 "$@"
 
