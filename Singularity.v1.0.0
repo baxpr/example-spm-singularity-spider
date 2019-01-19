@@ -42,8 +42,8 @@ smoothing for an fMRI data set. See /example_spm/README.md
   #                      at runtime.
   #   ghostscript     These two provide tools to generate/combine images/PDFs.
   #   imagemagick        We are not using them for this simple example.
-  apt-get update
-  apt-get install -y wget unzip zip openjdk-8-jre
+  apt-get -qq update
+  apt-get -qq install -y wget unzip zip openjdk-8-jre
   
   # If we are using ImageMagick to create PDFs, we need to relax its security 
   # policy to permit this. See https://usn.ubuntu.com/3785-1/
@@ -64,9 +64,9 @@ smoothing for an fMRI data set. See /example_spm/README.md
   # Singularity-hub doesn't work with github LFS (it gets the pointer info 
   # instead of the actual file) so we get the compiled matlab executable via 
   # direct download.
-  rm /opt/example_spm/bin/example_spm
+  rm /opt/example_spm/bin/example_main
   wget -nv -P /opt/example_spm/bin https://github.com/baxpr/example-spm-singularity-spider/blob/master/bin/example_main
-  chmod ugo+rx /opt/example_spm/bin/example_spm
+  chmod ugo+rx /opt/example_spm/bin/example_main
 
 
 %environment
@@ -79,6 +79,6 @@ smoothing for an fMRI data set. See /example_spm/README.md
   # singularity command line - this is how we pass in file paths, parameters, 
   # etc. The first argument given here is the location of the Matlab Runtime -
   # see the explanation in Matlab's auto-generated file bin/readme.txt
-  bash /opt/example_spm/bin/run_example_spm.sh \
+  bash /opt/example_spm/bin/run_example_main.sh \
   /usr/local/MATLAB/MATLAB_Runtime/v92 "$@"
 
